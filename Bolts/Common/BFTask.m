@@ -207,6 +207,11 @@ NSString *const BFTaskMultipleExceptionsException = @"BFMultipleExceptionsExcept
 }
 
 - (void)setError:(NSError *)error {
+    if (!error) {
+        NSLog(@"Bolts bug: setting nil error (their bug): %s", __PRETTY_FUNCTION__);
+        return;
+    }
+
     if (![self trySetError:error]) {
         [NSException raise:NSInternalInconsistencyException
                     format:@"Cannot set the error on a completed task."];
